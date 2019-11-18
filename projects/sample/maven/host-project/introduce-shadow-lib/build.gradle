@@ -3,6 +3,10 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 28
 
+    def DEBUGHOST = "\"http://127.0.0.1\""
+    def RELEASEHOST = "\"http://127.0.0.1\""
+    def DEBUGRESOURCESHOST = "\"http://192.168.1.107:8081/KODExplorer/index.php?user/publicLink&fid=\""
+    def RELEASERESOURCESHOST = "\"http://192.168.1.107:8081/KODExplorer/index.php?user/publicLink&fid=\""
 
     defaultConfig {
         minSdkVersion 16
@@ -12,9 +16,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String","HOST","${DEBUGHOST}")
+            buildConfigField("String","RESOURCESHOST","${DEBUGRESOURCESHOST}")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String","HOST","${RELEASEHOST}")
+            buildConfigField("String","RESOURCESHOST","${RELEASERESOURCESHOST}")
         }
     }
 
@@ -22,4 +34,7 @@ android {
 
 dependencies {
     implementation "com.tencent.shadow.dynamic:host:$shadow_version"
+    implementation "com.squareup.okhttp3:okhttp:4.2.2"
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
 }
