@@ -1,6 +1,7 @@
 package com.tencent.shadow.sample.manager;
 
 import android.app.Service;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,10 @@ import android.os.*;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.tencent.shadow.core.manager.installplugin.InstalledPlugin;
 import com.tencent.shadow.dynamic.host.EnterCallback;
 import com.tencent.shadow.dynamic.loader.PluginServiceConnection;
@@ -96,6 +101,30 @@ public class SamplePluginManager extends FastPluginManager {
                     }
 
                     startPluginActivity(context, installedPlugin, partKey, pluginIntent);
+                } catch (NullPointerException e) {
+                    Log.d("plugin","starting NullPointerException "+ e.getMessage());
+                    throw new RuntimeException(e);
+                }catch(ActivityNotFoundException e){
+                    Log.d("plugin","starting ActivityNotFoundException "+ e.getMessage());
+                    if (callback != null) {
+                        Handler uiHandler = new Handler(Looper.getMainLooper());
+                        uiHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                final LinearLayout linearLayout = new LinearLayout(context);
+                                linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+                                TextView textView = new TextView(context);
+                                textView.setText("插件未找到，请稍后重试");
+
+                                linearLayout.addView(textView);
+
+                                callback.onShowLoadingView(linearLayout);
+                                Toast.makeText(context, "插件未找到，请稍后重试。", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    throw new RuntimeException(e);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
