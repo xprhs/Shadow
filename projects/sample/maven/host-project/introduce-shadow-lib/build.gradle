@@ -3,10 +3,10 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 28
 
-    def DEBUGHOST = "\"http://127.0.0.1\""
-    def RELEASEHOST = "\"http://127.0.0.1\""
-    def DEBUGRESOURCESHOST = "\"http://192.168.1.107:8081/KODExplorer/index.php?user/publicLink&fid=\""
-    def RELEASERESOURCESHOST = "\"http://192.168.1.107:8081/KODExplorer/index.php?user/publicLink&fid=\""
+    def DEBUGHOST = "\"https://raw.githubusercontent.com/ykk0612/\""
+    def RELEASEHOST = "\"https://raw.githubusercontent.com/ykk0612/\""
+    def DEBUGRESOURCESHOST = "\"https://raw.githubusercontent.com/ykk0612/\""
+    def RELEASERESOURCESHOST = "\"https://raw.githubusercontent.com/ykk0612/\""
 
     defaultConfig {
         minSdkVersion 16

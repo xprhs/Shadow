@@ -50,6 +50,8 @@ public class InitApplication {
         //Log接口Manager也需要使用，所以主进程也初始化。
         LoggerFactory.setILoggerFactory(new AndroidLoggerFactory());
 
+        initManagerList();
+
         FixedPathPmUpdater fixedPathPmUpdater
                 = new FixedPathPmUpdater(new File(application.getApplicationContext().getFilesDir().getAbsolutePath()+"/sample-manager-debug.apk"));
         fixedPathPmUpdater.setApplication(application);
@@ -99,5 +101,9 @@ public class InitApplication {
             }
         }
         return processName.equals(currentProcName);
+    }
+    private static void initManagerList(){
+        File f = new File("Shadow/dynamic/apks/sample-manager-debug.apk");
+        managerList.add(f);
     }
 }
